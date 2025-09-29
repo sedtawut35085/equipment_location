@@ -1,0 +1,21 @@
+[project]
+name = "poc-equipment-profile"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "onnxruntime>=1.22.1",
+    "rembg>=2.0.67",
+    "numpy>=1.23.5,<2.0.0",
+    "scikit-learn>=1.7.0",
+    "tensorflow>=2.16.0,<2.18.0",
+    "pillow>=10.0.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "fastapi>=0.115.14",
+    "uvicorn>=0.35.0",
+    "requests>=2.32.4",
+    "python-multipart>=0.0.20",
+    "opencv-python>=4.11.0.86",
+]
