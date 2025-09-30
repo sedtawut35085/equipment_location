@@ -1,4 +1,7 @@
 dataset/
 temp_file/
 
+# Mock/test files
+main_mock.py
+
 __pycache__/
