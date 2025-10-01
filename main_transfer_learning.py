@@ -42,7 +42,7 @@ def main():
         print("Please make sure your dataset folder contains subfolders for each class")
         return
 
-    data_loader = DataLoader(DATASET_PATH, target_size=TARGET_SIZE)
+    data_loader = DataLoader(DATASET_PATH, target_size=TARGET_SIZE, class_names=['fresh', 'rotten'])
     results_dir = "models/evaluation"
     os.makedirs(results_dir, exist_ok=True)
 
