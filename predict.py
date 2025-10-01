@@ -1,68 +1,12 @@
-import numpy as np
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.models import load_model
 import os
 import random
-import tensorflow as tf
-
-# Configuration
-MODEL_PATH = 'models/transfer_learning_mobilenetv2_model.h5'
-TARGET_SIZE = (224, 224)  # Match the training input size
-CLASS_NAMES = ['fresh', 'rotten']
-
-def load_prediction_model(model_path):
-    """Load the trained model for prediction"""
-    try:
-        model = load_model(model_path)
-        print(f"✓ Model loaded successfully from {model_path}")
-        print(f"Model input shape: {model.input_shape}")
-        return model
-    except Exception as e:
-        print(f"✗ Error loading model: {e}")
-        return None
+from predict_util import load_prediction_model, predict_single_image, MODEL_PATH, CLASS_NAMES
 
 # Load the model
 model = load_prediction_model(MODEL_PATH)
 if model is None:
     print("Failed to load model. Please check if the model file exists.")
     exit(1)
-
-def predict_single_image(model, img_path, target_size=TARGET_SIZE):
-    """
-    Predict the class of a single image
-    
-    Args:
-        model: Trained Keras model
-        img_path: Path to the image file
-        target_size: Target size for image resizing
-    
-    Returns:
-        dict: Prediction results with class, confidence, and probabilities
-    """
-    try:
-        # Load and preprocess image
-        img = image.load_img(img_path, target_size=target_size, color_mode='rgb')
-        img_array = image.img_to_array(img)
-        img_array = np.expand_dims(img_array, axis=0) / 255.0
-        
-        # Make prediction
-        prediction = model.predict(img_array, verbose=0)
-        confidence = float(np.max(prediction))
-        pred_class = np.argmax(prediction, axis=1)[0]
-        pred_class_name = CLASS_NAMES[pred_class]
-        
-        return {
-            'predicted_class': pred_class,
-            'predicted_class_name': pred_class_name,
-            'confidence': confidence,
-            'probabilities': prediction[0].tolist(),
-            'success': True
-        }
-    except Exception as e:
-        return {
-            'error': str(e),
-            'success': False
-        }
 
 def collect_test_images(test_dir='dataset', num_samples=10):
     """
@@ -132,8 +76,7 @@ def predict_batch_images(model, test_images):
             
             # Show probabilities for each class
             print("Probabilities:")
-            for j, class_name in enumerate(CLASS_NAMES):
-                prob = result['probabilities'][j]
+            for class_name, prob in result['probabilities'].items():
                 print(f"  {class_name}: {prob:.4f}")
         else:
             print(f"✗ Error: {result['error']}")
