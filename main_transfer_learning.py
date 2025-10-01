@@ -209,7 +209,7 @@ def compare_models():
         print(f"Error: Dataset path '{DATASET_PATH}' does not exist!")
         return
 
-    data_loader = DataLoader(DATASET_PATH, target_size=TARGET_SIZE)
+    data_loader = DataLoader(DATASET_PATH, target_size=TARGET_SIZE, class_names=['fresh', 'rotten'])
     
     try:
         print("Loading dataset for model comparison...")

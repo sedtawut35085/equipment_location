@@ -6,19 +6,21 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 
 class DataLoader:
-    def __init__(self, dataset_path, target_size=(128, 128)):
+    def __init__(self, dataset_path, target_size=(128, 128), class_names=['fresh', 'rotten']):
         """
-        Initialize DataLoader for meat classification
+        Initialize DataLoader for image classification
         
         Args:
             dataset_path (str): Path to dataset directory
             target_size (tuple): Target size for images (height, width)
+            class_names (list): List of class names. If None, will auto-detect from directory structure
         """
         self.dataset_path = dataset_path
         self.target_size = target_size
-        self.class_names = ['fresh', 'rotten']
+        self.class_names = class_names
+            
         self.class_indices = {name: idx for idx, name in enumerate(self.class_names)}
-        
+                    
     def load_images_from_folder(self, folder_path, class_label):
         """
         Load images from a specific folder
