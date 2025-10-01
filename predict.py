@@ -78,7 +78,7 @@ def collect_test_images(test_dir='dataset', num_samples=10):
     test_images = []
     images_by_class = {class_name: [] for class_name in CLASS_NAMES}
     
-    # Collect all images by class
+    # Collect all images by class from CLASS_NAMES
     for class_name in CLASS_NAMES:
         class_dir = os.path.join(test_dir, class_name)
         if os.path.exists(class_dir):
@@ -86,22 +86,15 @@ def collect_test_images(test_dir='dataset', num_samples=10):
                 if fname.lower().endswith(('.jpg', '.jpeg', '.png', '.heic')):
                     images_by_class[class_name].append((os.path.join(class_dir, fname), class_name))
     
-    # Ensure balanced sampling if possible
-    rotten_images = images_by_class['rotten']
-    fresh_images = images_by_class['fresh']
+    # Flatten all images and sample
+    all_images = []
+    for class_name in CLASS_NAMES:
+        all_images.extend(images_by_class[class_name])
     
-    # Select at least 2 rotten images if available
-    selected_rotten = random.sample(rotten_images, min(2, len(rotten_images)))
-    remaining_needed = num_samples - len(selected_rotten)
+    selected_images = random.sample(all_images, min(num_samples, len(all_images)))
+    random.shuffle(selected_images)
     
-    # Fill remaining slots with fresh images and remaining rotten images
-    remaining_images = fresh_images + [img for img in rotten_images if img not in selected_rotten]
-    selected_remaining = random.sample(remaining_images, min(remaining_needed, len(remaining_images)))
-    
-    test_images = selected_rotten + selected_remaining
-    random.shuffle(test_images)
-    
-    return test_images
+    return selected_images
 
 def predict_batch_images(model, test_images):
     """
