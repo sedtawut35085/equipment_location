@@ -18,4 +18,10 @@ dependencies = [
     "requests>=2.32.4",
     "python-multipart>=0.0.20",
     "opencv-python>=4.11.0.86",
+    "python-dotenv>=1.0.0",
+]
+
+[tool.uv.workspace]
+members = [
+    "api",
 ]

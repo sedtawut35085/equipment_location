@@ -8,11 +8,12 @@ import os
 import numpy as np
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
+from config import CLASS_NAMES
 
 # Configuration
 MODEL_PATH = 'models/transfer_learning_mobilenetv2_model.h5'
 TARGET_SIZE = (224, 224)  # Match the training input size
-CLASS_NAMES = ['fresh', 'rotten']
+# CLASS_NAMES loaded from config.py (environment variables)
 
 def load_prediction_model(model_path):
     """Load the trained model for prediction"""
